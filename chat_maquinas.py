@@ -21,7 +21,7 @@ df["productividadreal"] = (
 
 # Configuración de la página
 st.set_page_config(page_title="Chat para Máquinas Circulares", layout="wide")
-st.title("🤖 Chat de Monitoreo de Máquinas Vanguard Pai Lung")
+st.title("🤖 Chat de Monitoreo de Máquinas Circulares")
 st.caption("Consulta el estado y la productividad de tus máquinas con lenguaje natural")
 st.markdown("---")
 
