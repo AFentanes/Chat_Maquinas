@@ -8,11 +8,14 @@ df = pd.read_csv("demo_productividad_maquinas.csv")
 # Normalizar nombres de columnas
 df.columns = [col.strip().lower() for col in df.columns]
 
+# Crear una columna combinando fecha y hora
+df['inicio'] = pd.to_datetime(df['fecha inicio'] + ' ' + df['hora inicio'])
+df['fin'] = pd.to_datetime(df['fecha fin'] + ' ' + df['hora fin'])
+
 # Calcular una columna estimada de productividad
 df["productividadreal"] = (
     (df["fin vueltas"] - df["inicio vueltas"]) / (
-        (pd.to_datetime(df["fecha fin / hora fin"]) - pd.to_datetime(df["fecha inicio / hora inicio"]))
-        .dt.total_seconds() / 60
+        (df["fin"] - df["inicio"]).dt.total_seconds() / 60
     )
 ).fillna(0)
 
@@ -79,3 +82,4 @@ if pregunta_usuario:
     st.session_state.historial.append({"rol": "assistant", "contenido": respuesta})
     with st.chat_message("assistant"):
         st.markdown(respuesta)
+
