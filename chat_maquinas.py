@@ -5,9 +5,9 @@ import datetime
 # Cargar datos
 df = pd.read_csv("demo_productividad_maquinas.csv")
 
-st.set_page_config(page_title="Chat para Máquinas Circulares", layout="wide")
-st.title("🤖 Chat de Monitoreo de Máquinas Vanguard Pai Lung")
-st.caption("Consulta el estado y la productividad de tus máquinas con lenguaje natural")
+st.set_page_config(page_title="Chat para Maquinas Circulares", layout="wide")
+st.title("🤖 Chat de Monitoreo de Maquinas Vanguard Pai Lung")
+st.caption("Consulta el estado y la productividad de tus Maquinas con lenguaje natural")
 st.markdown("---")
 
 # Procesador simple de preguntas
@@ -15,22 +15,22 @@ def responder_pregunta(pregunta):
     pregunta = pregunta.lower()
 
     if "productividad" in pregunta:
-        for maquina in df['Máquina'].unique():
+        for maquina in df['Maquina'].unique():
             if maquina.lower() in pregunta:
-                datos = df[df['Máquina'].str.lower() == maquina.lower()]
+                datos = df[df['Maquina'].str.lower() == maquina.lower()]
                 promedio = datos['ProductividadReal'].mean()
-                return f"📈 La productividad promedio de la máquina {maquina} es de **{promedio:.2f}** unidades."
-        return "❓ Por favor especifica una máquina."
+                return f"📈 La productividad promedio de la Maquina {maquina} es de **{promedio:.2f}** unidades."
+        return "❓ Por favor especifica una Maquina."
 
     elif "más paro" in pregunta:
-        total_paros = df.groupby('Máquina')['MINUTOS DE OTROS PAROS'].sum()
+        total_paros = df.groupby('Maquina')['MINUTOS DE OTROS PAROS'].sum()
         maquina_max = total_paros.idxmax()
-        return f"🛑 La máquina con más minutos de paros fue **{maquina_max}** con **{total_paros.max()}** minutos."
+        return f"🛑 La Maquina con más minutos de paros fue **{maquina_max}** con **{total_paros.max()}** minutos."
 
     elif "caída de tela" in pregunta:
-        total_caidas = df.groupby('Máquina')['MINUTOS CAÍDA DE TELA'].sum()
+        total_caidas = df.groupby('Maquina')['MINUTOS CAÍDA DE TELA'].sum()
         maquina_top = total_caidas.idxmax()
-        return f"⚠️ La máquina con más caídas de tela fue **{maquina_top}** con **{total_caidas.max()}** minutos."
+        return f"⚠️ La Maquina con más caídas de tela fue **{maquina_top}** con **{total_caidas.max()}** minutos."
 
     elif "semana" in pregunta:
         palabras = pregunta.split()
@@ -39,10 +39,10 @@ def responder_pregunta(pregunta):
                 semana = int(palabra)
                 if semana in df['Semana'].values:
                     datos = df[df['Semana'] == semana]
-                    resumen = datos.groupby('Máquina')['ProductividadReal'].mean().reset_index()
+                    resumen = datos.groupby('Maquina')['ProductividadReal'].mean().reset_index()
                     resultado = "📊 Productividad promedio en la semana " + str(semana) + ":\n"
                     for _, row in resumen.iterrows():
-                        resultado += f"- {row['Máquina']}: {row['ProductividadReal']:.2f} unidades\n"
+                        resultado += f"- {row['Maquina']}: {row['ProductividadReal']:.2f} unidades\n"
                     return resultado
         return "❓ Por favor especifica una semana (ej. semana 14)."
 
@@ -56,7 +56,7 @@ for mensaje in st.session_state.historial:
     with st.chat_message(mensaje["rol"]):
         st.markdown(mensaje["contenido"])
 
-pregunta_usuario = st.chat_input("Haz una pregunta sobre las máquinas...")
+pregunta_usuario = st.chat_input("Haz una pregunta sobre las Maquinas...")
 
 if pregunta_usuario:
     st.session_state.historial.append({"rol": "user", "contenido": pregunta_usuario})
